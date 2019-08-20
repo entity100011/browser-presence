@@ -1,12 +1,13 @@
 mod client;
 mod util;
 
-use util::*;
 use client::{ClientManager, Presence};
 use serde::{Deserialize, Serialize};
 use std::sync::mpsc::{sync_channel, Receiver, SyncSender};
 use std::thread;
-use termion::style::Reset;
+#[cfg(target_os = "unix")]
+use termion::color::{YELLOW, GREEN, RED, Reset};
+use util::*;
 use ws::listen;
 
 #[derive(Serialize, Deserialize)]
@@ -80,8 +81,9 @@ fn main() {
     });
 
     // Port 43069 ( ͡° ͜ʖ ͡°)
-    info(format!("Starting server on port {}4{}30{}69{} ( ͡° ͜ʖ ͡°)", YELLOW, GREEN, RED, Reset));
-    listen("127.0.0.1:43069", |out| {
+    info("Starting server on port {}4{}40{}69{} ( ͡° ͜ʖ ͡°)");
+
+    listen("127.0.0.1:42069", |out| {
         let s = s.clone();
 
         move |msg: ws::Message| {
@@ -92,6 +94,5 @@ fn main() {
             out.send(msg)
         }
     })
-        .unwrap();
+    .unwrap();
 }
-

@@ -86,12 +86,10 @@ impl ClientManager {
 
         loop {
             match iter.next() {
-                Some((_, client)) => {
-                    match client.clear_presence() {
-                        Ok(_) => continue,
-                        Err(e) => break Err(e),
-                    }
-                }
+                Some((_, client)) => match client.clear_presence() {
+                    Ok(_) => continue,
+                    Err(e) => break Err(e),
+                },
                 None => break Ok(()),
             }
         }
